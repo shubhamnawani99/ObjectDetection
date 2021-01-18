@@ -1,0 +1,72 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <!-- Popper JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script> 
+    <link href="https://fonts.googleapis.com/css2?family=Recursive:wght@500&display=swap" rel="stylesheet"> 
+    <title>YOLO</title>
+    <style>
+        h1 {
+            font-family: 'Recursive', sans-serif;
+            color: white;
+            text-align: center;
+            margin-top: 2rem;
+        }
+        body {
+            background-image: linear-gradient(90deg, #2193b0 , #6dd5ed);
+        }
+
+        .center{
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            object-fit: cover;
+            border: black 4px solid;
+            border-radius: 8px;
+            padding: 5px;
+        }
+    </style>
+    <script>
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                console.log("here");
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#inputimg')
+                        .attr('src', e.target.result);
+                };
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="container-fluid">
+        <h1>YOLO Object Detection</h1>
+        <hr width="80%" style="border-color: white;">
+        <img src="{% static 'input/upload-icon.png' %}" id="inputimg" alt="test" width="500" height="400" class="center">
+        <div style="width: 40%; margin-left:auto; margin-right:auto; display:block; margin-top:2rem; padding: 1rem" class="card">
+            <form action="{% url 'index' %}" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="imageinput" style="color: black;">Select Image</label>
+                    <input class="form-control" type="file" name="imginput" id="imginput" accept="image/*" onchange="readURL(this)">
+                </div>
+                <input type="submit" name="submit" value="Detect" class="btn btn-success btn-block">
+            </form>
+        </div>
+    </div>
+</body>
+</html>
